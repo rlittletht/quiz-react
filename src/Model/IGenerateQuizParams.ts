@@ -3,22 +3,22 @@
 
 export interface IGenerateQuizParams
 {
-    Minors?: string;
-    Majors?: string;
-    Intermediates?: string;
-    Juniors?: string;
-    Seniors?: string;
-    Baseball?: string;
-    Softball?: string;
-    NFHS?: string;
-    Diff1?: string;
-    Diff2?: string;
-    Diff3?: string;
-    Diff4?: string;
-    Regular?: string;
-    Tournament?: string;
+    Minors?: boolean;
+    Majors?: boolean;
+    Intermediates?: boolean;
+    Juniors?: boolean;
+    Seniors?: boolean;
+    Baseball?: boolean;
+    Softball?: boolean;
+    NFHS?:  boolean;
+    Diff1?: boolean;
+    Diff2?: boolean;
+    Diff3?: boolean;
+    Diff4?: boolean;
+    Regular?: boolean;
+    Tournament?: boolean;
     SpecificQuestions?: string;
-    QuestionCount?: string;
+    QuestionCount?: number;
     LocalLeague?: string;
-    LocalRule?: string;
+    LocalRule?: boolean;
 }

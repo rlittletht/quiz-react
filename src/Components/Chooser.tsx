@@ -4,8 +4,23 @@ import { IFormClient } from './IFormClient';
 import { Legend } from './Legend';
 import { Dropdown, IDropdownOption } from "./Dropdown";
 import { Textbox } from './Textbox';
+import { IGenerateQuizParams } from '../Model/IGenerateQuizParams';
 
-export class Chooser extends React.Component implements IFormClient
+export interface QuizGenerateDelegate
+{
+    (params: IGenerateQuizParams): void;
+}
+
+export interface ChooserProps
+{
+    quizGenerateDelegate: QuizGenerateDelegate;
+}
+
+export interface ChooserState
+{
+}
+
+export class Chooser extends React.Component<ChooserProps, ChooserState> implements IFormClient
 {
     values: Map<string, string> = new Map<string, string>();
 
@@ -30,7 +45,7 @@ export class Chooser extends React.Component implements IFormClient
             ["idLocal", "LocalLeague"]
         ]);
 
-    constructor(props: any)
+    constructor(props: ChooserProps)
     {
         super(props);
 
@@ -47,14 +62,54 @@ export class Chooser extends React.Component implements IFormClient
         this.values.set("idDiff2", "1");
     }
 
+    getBooleanFormVal(id: string): boolean | undefined
+    {
+        if (this.values.has(id))
+            return (this.values.get(id) == "1" ? true : false);
+
+        return undefined;
+    }
+
+    getNumberFormVal(id: string): number | undefined
+    {
+        if (this.values.has(id))
+            return +(this.values.get(id) as string);
+
+        return undefined;
+    }
+
+    getStringFormVal(id: string): string | undefined
+    {
+        if (this.values.has(id))
+            return this.values.get(id);
+
+        return undefined;
+    }
+
     generateQuizClick(e: React.MouseEvent<HTMLButtonElement>)
     {
-        const params = {};
+        const params: IGenerateQuizParams = {};
 
-        for (const key of this.values.keys())
-            (params as any)[this.mapFormIdsToQuizParams.get(key) as string] = this.values.get(key);
+        params.Minors = this.getBooleanFormVal("idMinors");
+        params.Majors = this.getBooleanFormVal("idMajors");
+        params.Intermediates = this.getBooleanFormVal("idintermediates");
+        params.Juniors = this.getBooleanFormVal("idJuniors");
+        params.Seniors = this.getBooleanFormVal("idSeniors");
+        params.Baseball = this.getBooleanFormVal("idBaseball");
+        params.Softball = this.getBooleanFormVal("idSoftball");
+        params.NFHS = this.getBooleanFormVal("idFed");
+        params.Diff1 = this.getBooleanFormVal("idDiff1");
+        params.Diff2 = this.getBooleanFormVal("idDiff2");
+        params.Diff3 = this.getBooleanFormVal("idDiff3");
+        params.Diff4 = this.getBooleanFormVal("idDiff4");
+        params.Regular = this.getBooleanFormVal("idRegular");
+        params.Tournament = this.getBooleanFormVal("idTournament");
+        params.SpecificQuestions = this.getStringFormVal("idQDebug");
+        params.QuestionCount = this.getNumberFormVal("idCount");
+        params.LocalLeague = this.getStringFormVal("idLocal");
+        params.LocalRule = params.LocalLeague ?? "" == "" ? false : true;
 
-        alert(`collected: ${JSON.stringify(params)}`);
+        this.props.quizGenerateDelegate(params);
     }
 
     setFormControlValue(id: string, value: string): void
@@ -111,7 +166,7 @@ export class Chooser extends React.Component implements IFormClient
                                             <table className="OptionsTable">
                                                 <tbody>
                                                     <tr>
-                                                        <td><Checkbox id="idMinors" label="Little League Minors" client={this} defaultValue="1"/></td>
+                                                        <td><Checkbox id="idMinors" label="Little League Minors" client={this} defaultValue="1" /></td>
                                                         <td colSpan={2}><Checkbox id="idMajors" label="Little League Majors" client={this} /></td>
                                                     </tr>
                                                     <tr>
