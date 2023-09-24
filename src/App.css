@@ -1,38 +1,48 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.AppHeader {
+    background-color: darkgray;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.LayoutTable {
+    border: none;
+    border-spacing: 0px;
+    border-collapse: collapse;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    .LayoutTable td {
+        border: none;
+    }
+
+.OptionsTable {
+    border: none;
+    border-spacing: 0px;
+    border-collapse: collapse;
 }
 
-.App-link {
-  color: #61dafb;
+    .OptionsTable td {
+        border: none;
+        padding: 4pt;
+    }
+
+.GridTable {
+    border: 1pt solid black;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+    .GridTable td{
+        border: 1pt solid black;
+        padding: 3pt;
+    }
+
+.QuizIntro {
+    text-align: left;
+    font-family: Verdana;
+    font-size: 10pt;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main {
+    margin: 1rem;
 }

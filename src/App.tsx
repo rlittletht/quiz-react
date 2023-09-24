@@ -1,26 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { AppHeader } from "./Components/AppHeader";
+import { Chooser } from "./Components/Chooser";
+import { Intro } from './Components/Intro';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+enum PageState
+{
+    Start = 0,
+    Quizzing = 1,
+    Grading = 2
 }
 
-export default App;
+export interface AppProps
+{
+}
+
+export interface AppState
+{
+    pageState: PageState;
+}
+
+export class App extends React.Component<AppProps, AppState>
+{
+    constructor(props: AppProps)
+    {
+        super(props);
+        this.state =
+        {
+            pageState: PageState.Start
+        }
+    }
+
+    render()
+    {
+        const maybeChooser =
+            this.state.pageState === PageState.Start
+                ? (
+                    <>
+                        <Intro />
+                        <hr />
+                        <Chooser />
+                    </>)
+                : "";
+
+        return (
+            <div>
+                <AppHeader />
+                <div className="main">
+                    {maybeChooser}
+                </div>
+            </div>
+        )
+    }
+}
