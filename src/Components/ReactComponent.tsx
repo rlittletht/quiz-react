@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 export interface ComponentProps
 {
@@ -18,7 +18,7 @@ export class Component extends React.Component<ComponentProps, ComponentState>
     render()
     {
         return (
-            <div>Hello world!</div>
-        );
+            <div>Hello World</div>
+            )
     }
 }

@@ -14,6 +14,9 @@ export interface QuizGenerateDelegate
 export interface ChooserProps
 {
     quizGenerateDelegate: QuizGenerateDelegate;
+    showDebug: boolean;
+    showLocal: boolean;
+    showFed: boolean;
 }
 
 export interface ChooserState
@@ -104,10 +107,17 @@ export class Chooser extends React.Component<ChooserProps, ChooserState> impleme
         params.Diff4 = this.getBooleanFormVal("idDiff4");
         params.Regular = this.getBooleanFormVal("idRegular");
         params.Tournament = this.getBooleanFormVal("idTournament");
-        params.SpecificQuestions = this.getStringFormVal("idQDebug");
         params.QuestionCount = this.getNumberFormVal("idCount");
         params.LocalLeague = this.getStringFormVal("idLocal");
         params.LocalRule = params.LocalLeague ?? "" == "" ? false : true;
+
+        const qlist = this.getStringFormVal("idQDebug");
+        if (qlist)
+        {
+            const ids = qlist.split(",");
+            
+            params.SpecificQuestions = ids.map((_val) => +_val);
+        }
 
         this.props.quizGenerateDelegate(params);
     }
@@ -143,10 +153,34 @@ export class Chooser extends React.Component<ChooserProps, ChooserState> impleme
                 { value: "Redmond North", text: "Redmond North" }
             ];
 
-        const fedRulesVisibility: CSSProperties = { visibility: 'visible' }
-        const localRulesVisibility: CSSProperties = { visibility: 'visible' };
-        const debugVisibility: CSSProperties = { visibility: 'visible' };
-        const controlGroupPadding: CSSProperties = { paddingTop: '1rem' }
+        const controlGroupPadding: CSSProperties = { paddingTop: '1rem' };
+
+        this.values.set("idCount", "5");
+
+        const fedRules =
+            this.props.showFed
+                ? (
+                    <tr>
+                        <td colSpan={2}><Checkbox id="idFed" label="NFHS (Fed/High school)" client={this} /></td>
+                    </tr>
+                )
+                : "";
+
+        const localRules =
+            this.props.showLocal
+                ? (<p>
+                    <Dropdown id="idLocal" client={this} label="Include local league questions for:" options={localOptions} />
+                </p>
+                )
+                : "";
+
+        const debugOptions =
+            this.props.showDebug
+                ? (<p>
+                    <Textbox id="idQDebug" client={this} label="Q-Debug-List" />
+                </p>
+                )
+                : "";
 
         return (
             <div>
@@ -159,7 +193,7 @@ export class Chooser extends React.Component<ChooserProps, ChooserState> impleme
                         <tr>
                             <td>
                                 <div style={{ marginLeft: "0.25in" }}>
-                                    <Dropdown id="idCount" client={this} label="Number of questions:" options={countOptions} default="3" />
+                                    <Dropdown id="idCount" client={this} label="Number of questions:" options={countOptions} />
 
                                     <div style={controlGroupPadding}>Choose division levels (check all that apply)
                                         <div style={{ marginLeft: "0.25in" }}>
@@ -187,9 +221,7 @@ export class Chooser extends React.Component<ChooserProps, ChooserState> impleme
                                                         <td><Checkbox id="idBaseball" label="Baseball" client={this} /></td>
                                                         <td><Checkbox id="idSoftball" label="Softball" client={this} /></td>
                                                     </tr>
-                                                    <tr style={fedRulesVisibility}>
-                                                        <td colSpan={2}><Checkbox id="idFed" label="NFHS (Fed/High school)" client={this} /></td>
-                                                    </tr>
+                                                    {fedRules}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -225,12 +257,8 @@ export class Chooser extends React.Component<ChooserProps, ChooserState> impleme
                                         </div>
                                     </div>
 
-                                    <p style={localRulesVisibility}>
-                                        <Dropdown id="idLocal" client={this} label="Include local league questions for:" options={localOptions} default="None" />
-                                    </p>
-                                    <p style={debugVisibility}>
-                                        <Textbox id="idQDebug" client={this} label="Q-Debug-List" />
-                                    </p>
+                                    {localRules}
+                                    {debugOptions}
                                 </div>
                                 <div style={{ textAlign: "right" }}>
                                     <button onClick={this.generateQuizClick.bind(this)}>Generate Quiz</button>

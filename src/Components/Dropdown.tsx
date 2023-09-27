@@ -10,7 +10,6 @@ export interface IDropdownOption
 export interface DropdownProps extends IBaseFormControlProps
 {
     options: IDropdownOption[];
-    default: string;
 }
 
 export interface DropdownState

@@ -23,10 +23,10 @@ export class AppHeader extends React.Component<AppHeaderProps, AppHeaderState>
                                 <img src={bb_art} alt="" />
                             </td>
                             <td style={{ width: "100%" }}>
-                                <p style={{ textAlign: "center" }}>
+                                <p className="NoSpacing" style={{ textAlign: "center" }}>
                                     <img src={title} alt="Online Umpire Quiz" />
                                 </p>
-                                <p style={{ textAlign: "center" }}>
+                                <p className="NoSpacing" style={{ textAlign: "center" }}>
                                     Questions based on NFHS, OBR, and LIttle League rules.
                                 </p>
                             </td>

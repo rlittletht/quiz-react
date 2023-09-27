@@ -17,7 +17,7 @@ export interface IGenerateQuizParams
     Diff4?: boolean;
     Regular?: boolean;
     Tournament?: boolean;
-    SpecificQuestions?: string;
+    SpecificQuestions?: number[];
     QuestionCount?: number;
     LocalLeague?: string;
     LocalRule?: boolean;

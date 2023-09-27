@@ -46,3 +46,12 @@
 .main {
     margin: 1rem;
 }
+
+.NoSpacing{
+    margin: 0pt;
+}
+
+.TightSpacing {
+    margin: 0pt;
+    margin-top: .3rem;
+}
